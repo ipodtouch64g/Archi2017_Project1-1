@@ -4,8 +4,6 @@ int main()
 {
   //Read iimage and dimage
   OpenFile();
-  iimageParser();
-  dimageParser();
 
   //Start initializing
   halt = 0;

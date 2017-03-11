@@ -30,6 +30,9 @@ void OpenFile()
 
   fclose(iimage);
   fclose(dimage);
+  iimageParser();
+  dimageParser();
+  //printParsed();
 }
 //Deal with iimage
 void iimageParser()
@@ -66,6 +69,16 @@ void dimageParser()
   //Others are instructions,write them to dMemory
   for(int i=8;i<8+lineNum*4;i++)
     dMemory[tmp++] = dimageBuf[i];
+}
+
+//Debug
+void printParsed()
+{
+	printf("PC: 0x%08X\n", PC);
+  for(int i=0;i<1024;i+=4)
+    printf("iMemory at 0x%08X : 0x%02X%02X%02X%02X\n",i,iMemory[i],iMemory[i+1],iMemory[i+2],iMemory[i+3]);
+  for(int i=0;i<1024;i+=4)
+    printf("dMemory at 0x%08X : 0x%02X%02X%02X%02X\n",i,dMemory[i],dMemory[i+1],dMemory[i+2],dMemory[i+3]);
 }
 //Dump errors
 void errorDump()

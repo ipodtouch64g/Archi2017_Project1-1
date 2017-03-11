@@ -1,12 +1,16 @@
 #ifndef mem_instruction_h
 #define mem_instruction_h
+#include"simulator.h"
 
-unsigned char iMemory[1024];
-unsigned iAddr,iPos;
-unsigned op,rs,rt,rd,func,shamt,immediate;
+
 
 void MachineCodeToCommands();
-
+void findOP();
+void findRSRTRD();
+void findFUNC();
+void findSHAMT();
+void findIMMEDIATE();
+void findADDR();
 
 
 
