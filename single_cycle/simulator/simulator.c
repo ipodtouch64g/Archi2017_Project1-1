@@ -6,8 +6,8 @@ void OpenFile()
 
   unsigned len_iimage=0, len_dimage=0;
 
-  error_dump = fopen("error_dump.rpt","wb");
-  snapshot = fopen("snapshot.rpt","wb");
+  error_dump = fopen("error_dump.rpt","w");
+  snapshot = fopen("snapshot.rpt","w");
   iimage = fopen("iimage.bin","rb");
   dimage = fopen("dimage.bin","rb");
 
@@ -32,7 +32,7 @@ void OpenFile()
   fclose(dimage);
   iimageParser();
   dimageParser();
-  //printParsed();
+  printParsed();
 }
 //Deal with iimage
 void iimageParser()
@@ -55,20 +55,20 @@ void iimageParser()
 //Deal with dimage
 void dimageParser()
 {
-  unsigned tmp=0,lineNum=0;
+  unsigned tmp=0,lineNum=0,index=0;
 
   //First 4 bytes is initial value of SP
   for(int i=0;i<4;i++)
-    tmp = (tmp<<8) + (unsigned char)iimageBuf[i];
+    tmp = (tmp<<8) + (unsigned char)dimageBuf[i];
   reg[29] = tmp;
 
   //Second 4 bytes is # of how many lines of instructions below
   for(int i=4;i<8;i++)
-    lineNum = (lineNum<<8) + (unsigned char)iimageBuf[i];
+    lineNum = (lineNum<<8) + (unsigned char)dimageBuf[i];
 
   //Others are instructions,write them to dMemory
   for(int i=8;i<8+lineNum*4;i++)
-    dMemory[tmp++] = dimageBuf[i];
+    dMemory[index++] = dimageBuf[i];
 }
 
 //Debug
@@ -85,24 +85,38 @@ void printParsed()
 //Dump errors
 void errorDump()
 {
-  if(writeRegZero==1)
-    fprintf(error_dump, "In cycle %d: Write $0 Error\n", cycle);
+	if (writeRegZero == 1)
+	{
+		fprintf(error_dump, "In cycle %d: Write $0 Error\n", cycle);
+		printf("In cycle %d: Write $0 Error\n", cycle);
+  }
+    
 
-  if(numOverflow==1)
-    fprintf(error_dump, "In cycle %d: Number Overflow\n", cycle);
+	if (numOverflow == 1)
+	{
+		fprintf(error_dump, "In cycle %d: Number Overflow\n", cycle);
+		printf("In cycle %d: Number Overflow\n", cycle);
+  }
+    
 
-  if(HILOOverWrite==1)
-    fprintf(error_dump, "In cycle %d: Overwrite HI-LO registers\n", cycle);
+	if (HILOOverWrite == 1)
+	{
+		fprintf(error_dump, "In cycle %d: Overwrite HI-LO registers\n", cycle);
+		printf("In cycle %d: Overwrite HI-LO registers\n", cycle);
+  }
+    
 
   if(memOverflow==1)
   {
     fprintf(error_dump , "In cycle %d: Address Overflow\n", cycle);
+	printf("In cycle %d: Address Overflow\n", cycle);
     halt=1;
   }
 
   if(dataMisaligned==1)
   {
     fprintf(error_dump , "In cycle %d: Misalignment Error\n", cycle);
+	printf("In cycle %d: Misalignment Error\n", cycle);
     halt=1;
   }
 
@@ -111,17 +125,22 @@ void errorDump()
 void snapShot()
 {
   fprintf(snapshot, "cycle %d\n", cycle);
-
+  printf("cycle %d\n", cycle);
   if(cycle==0)
   {
     for(int i=0;i<32;i++)
     {
       fprintf(snapshot, "$%02d: 0x", i);
       fprintf(snapshot, "%08X\n", reg[i]);
+	  printf("$%02d: 0x", i);
+	  printf("%08X\n", reg[i]);
     }
     fprintf(snapshot, "$HI: 0x%08X\n",HI);
     fprintf(snapshot, "$LO: 0x%08X\n",LO);
     fprintf(snapshot, "PC: 0x%08X\n\n\n",PC);
+	printf("$HI: 0x%08X\n", HI);
+	printf("$LO: 0x%08X\n", LO);
+	printf("PC: 0x%08X\n\n\n", PC);
   }
 
   else
@@ -132,15 +151,28 @@ void snapShot()
 		{
 			fprintf(snapshot, "$%02d: 0x", i);
 			fprintf(snapshot, "%08X\n", reg[i]);
+			printf("$%02d: 0x", i);
+			printf("%08X\n", reg[i]);
 		}
 		lastReg[i] = reg[i];     
     }
-    if(lastHI!=HI)
-      fprintf(snapshot, "$HI: 0x%08X\n",HI);
-    if(lastLO!=LO)
-      fprintf(snapshot, "$LO: 0x%08X\n",LO);
-    if(lastPC!=PC)
-      fprintf(snapshot, "PC: 0x%08X\n\n\n",PC);
+	if (lastHI != HI)
+	{
+		fprintf(snapshot, "$HI: 0x%08X\n", HI);
+		printf("$HI: 0x%08X\n", HI);
+	}
+	if (lastLO != LO)
+	{
+		fprintf(snapshot, "$LO: 0x%08X\n", LO);
+		printf("$LO: 0x%08X\n", LO);
+	}
+      
+	  if (lastPC != PC)
+	  {
+		  fprintf(snapshot, "PC: 0x%08X\n\n\n", PC);
+		  printf( "PC: 0x%08X\n\n\n", PC);
+	}
+      
 
 	lastHI = HI;
 	lastLO = LO;

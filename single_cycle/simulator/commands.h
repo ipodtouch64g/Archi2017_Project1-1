@@ -5,7 +5,7 @@ void R_Command(char*);
 void I_Command(char*);
 void J_Command(char*);
 void detectWriteRegZero();
-void detectNumOverflow(int ,int,int); 
+void detectNumOverflow(int , int , int );
 void detectHILOWrite(char*);
 int detectMemOverflow(int); 
 int detectDataMisaligned(int);

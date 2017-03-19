@@ -1,4 +1,9 @@
-﻿  main.c
-main.c(36): warning C4013: 'MachineCodeToCommands' 未定義; 假設 extern 傳回整數
+﻿  commands.c
+commands.c(442): warning C4473: 'printf' : 傳遞給格式字串的引數不足
+  commands.c(442): note: 預留位置及其參數需要 3 個 variadic 引數，但卻提供了 2 個
+  commands.c(442): note: 缺少 variadic 引數 3 (其為格式字串 '%08x' 所需)
+commands.c(447): warning C4473: 'printf' : 傳遞給格式字串的引數不足
+  commands.c(447): note: 預留位置及其參數需要 3 個 variadic 引數，但卻提供了 2 個
+  commands.c(447): note: 缺少 variadic 引數 3 (其為格式字串 '%08x' 所需)
   pj1.vcxproj -> C:\Users\qazxws\Desktop\Archi2017_Project1-1\single_cycle\simulator\Debug\pj1.exe
   pj1.vcxproj -> C:\Users\qazxws\Desktop\Archi2017_Project1-1\single_cycle\simulator\Debug\pj1.pdb (Partial PDB)

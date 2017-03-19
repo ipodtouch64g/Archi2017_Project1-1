@@ -2,9 +2,6 @@
 
 int main()
 {
-
-
-
 	//initializing
 	halt = 0;
 	cycle = 0;
@@ -18,6 +15,7 @@ int main()
 	toggledHILO = 0;toggledMULT = 0;
   //Read iimage and dimage
 	OpenFile();
+	lastReg[29] = reg[29];			//stupid $sp...
   //Start simulation
   while(halt!=1)
   {
@@ -29,8 +27,8 @@ int main()
     snapShot();
     MachineCodeToCommands();
 	errorDump();
-
   }
-
+  fclose(snapshot);
+  fclose(error_dump);
   return 0;
 }
