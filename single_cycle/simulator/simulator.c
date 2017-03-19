@@ -75,6 +75,8 @@ void dimageParser()
 void printParsed()
 {
 	printf("PC: 0x%08X\n", PC);
+	printf("HI: 0x%08X\n", HI);
+	printf("LO: 0x%08X\n", LO);
   for(int i=0;i<1024;i+=4)
     printf("iMemory at 0x%08X : 0x%02X%02X%02X%02X\n",i,iMemory[i],iMemory[i+1],iMemory[i+2],iMemory[i+3]);
   for(int i=0;i<1024;i+=4)
@@ -89,7 +91,7 @@ void errorDump()
   if(numOverflow==1)
     fprintf(error_dump, "In cycle %d: Number Overflow\n", cycle);
 
-  if(regOverflow==1)
+  if(HILOOverWrite==1)
     fprintf(error_dump, "In cycle %d: Overwrite HI-LO registers\n", cycle);
 
   if(memOverflow==1)
@@ -126,16 +128,23 @@ void snapShot()
   {
     for(int i=0;i<32;i++)
     {
-      fprintf(snapshot, "$%02d: 0x", i);
-      if(regChanged[i]==1)
-        fprintf(snapshot, "%08X\n", reg[i]);
+		if (lastReg[i] != reg[i])
+		{
+			fprintf(snapshot, "$%02d: 0x", i);
+			fprintf(snapshot, "%08X\n", reg[i]);
+		}
+		lastReg[i] = reg[i];     
     }
-    if(HIChanged==1)
+    if(lastHI!=HI)
       fprintf(snapshot, "$HI: 0x%08X\n",HI);
-    if(LOChanged==1)
+    if(lastLO!=LO)
       fprintf(snapshot, "$LO: 0x%08X\n",LO);
-    if(PCChanged==1)
+    if(lastPC!=PC)
       fprintf(snapshot, "PC: 0x%08X\n\n\n",PC);
+
+	lastHI = HI;
+	lastLO = LO;
+	lastPC = PC;
   }
   cycle++;
 }

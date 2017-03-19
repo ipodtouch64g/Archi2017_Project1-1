@@ -1,42 +1,19 @@
 #ifndef commands_h
 #define commands_h
 #include"simulator.h"
-void add();
-void addu();
-void sub();
-void and();
-void or();
-void xor();
-void nor();
-void nand();
-void slt();
-void sll();
-void srl();
-void sra();
-void jr();
-void mult();
-void multu();
-void mfhi();
-void mflo();
-void addiu();
-void addi();
-void lw();
-void lh();
-void lhu();
-void lb();
-void lbu();
-void sw();
-void sh();
-void sb();
-void lui();
-void andi();
-void ori();
-void nori();
-void slti();
-void beq();
-void bne();
-void bgtz();
-void j();
-void jal();
-
+void R_Command(char*);
+void I_Command(char*);
+void J_Command(char*);
+void detectWriteRegZero();
+void detectNumOverflow(int ,int,int); 
+void detectHILOWrite(char*);
+int detectMemOverflow(int); 
+int detectDataMisaligned(int);
+void findOP();
+void findRSRTRD();
+void findFUNC();
+void findSHAMT();
+void findSignedIMMEDIATE();
+void findUnsignedIMMEDIATE();
+void findADDR();
 #endif

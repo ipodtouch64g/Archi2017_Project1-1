@@ -1,13 +1,4 @@
-﻿  simulator.c
-simulator.c(9): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\ucrt\stdio.h(207): note: 請參閱 'fopen' 的宣告
-simulator.c(10): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\ucrt\stdio.h(207): note: 請參閱 'fopen' 的宣告
-simulator.c(11): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\ucrt\stdio.h(207): note: 請參閱 'fopen' 的宣告
-simulator.c(12): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\ucrt\stdio.h(207): note: 請參閱 'fopen' 的宣告
-simulator.c(52): warning C4018: '<': signed/unsigned 不相符
-simulator.c(70): warning C4018: '<': signed/unsigned 不相符
+﻿  main.c
+main.c(36): warning C4013: 'MachineCodeToCommands' 未定義; 假設 extern 傳回整數
   pj1.vcxproj -> C:\Users\qazxws\Desktop\Archi2017_Project1-1\single_cycle\simulator\Debug\pj1.exe
   pj1.vcxproj -> C:\Users\qazxws\Desktop\Archi2017_Project1-1\single_cycle\simulator\Debug\pj1.pdb (Partial PDB)

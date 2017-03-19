@@ -2,22 +2,33 @@
 
 int main()
 {
-  //Read iimage and dimage
-  OpenFile();
 
-  //Start initializing
-  halt = 0;
-  cycle = 0;
+
+
+	//initializing
+	halt = 0;
+	cycle = 0;
+	memset(lastReg,0,128);
+	PC = 0;
+	HI = 0;
+	LO = 0;
+	lastPC = 0;
+	lastHI = 0;
+	lastLO = 0;
+	toggledHILO = 0;toggledMULT = 0;
+  //Read iimage and dimage
+	OpenFile();
   //Start simulation
   while(halt!=1)
   {
     writeRegZero=0;
     numOverflow=0;
-    regOverflow=0;
+    HILOOverWrite=0;
     memOverflow=0;
     dataMisaligned=0;
     snapShot();
     MachineCodeToCommands();
+	errorDump();
 
   }
 

@@ -101,13 +101,11 @@
   <ItemGroup>
     <ClCompile Include="commands.c" />
     <ClCompile Include="main.c" />
-    <ClCompile Include="mem_data.c" />
     <ClCompile Include="mem_instruction.c" />
     <ClCompile Include="simulator.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commands.h" />
-    <ClInclude Include="mem_data.h" />
     <ClInclude Include="mem_instruction.h" />
     <ClInclude Include="simulator.h" />
   </ItemGroup>
