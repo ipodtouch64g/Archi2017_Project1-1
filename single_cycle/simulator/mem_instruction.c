@@ -14,6 +14,8 @@ void MachineCodeToCommands()
 			case 0x21:
 				R_Command("addu");break;
 			case 0x22:
+				R_Command("sub");break;
+			case 0x24:
 				R_Command("and");break;
 			case 0x25:
 				R_Command("or");break;

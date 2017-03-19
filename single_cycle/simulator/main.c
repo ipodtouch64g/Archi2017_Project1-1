@@ -1,4 +1,5 @@
 #include "simulator.h"
+#include "mem_instruction.h"
 
 int main()
 {

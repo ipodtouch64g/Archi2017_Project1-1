@@ -12,11 +12,11 @@ void R_Command(char *op) {
 	{
 		printf("0x%08x : add : $%u , $%u ,$%u\n",PC,rd,rs,rt);
 		reg[rd] = reg[rs] + reg[rt];
+		detectNumOverflow((int)reg[rs], (int)reg[rt], (int)reg[rd]);
 		if (rd == 0)
 		{
 			detectWriteRegZero();
 		}
-		detectNumOverflow((int)reg[rs], (int)reg[rt], (int)reg[rd]);
 	}
 
 	else if (strcmp(op, "addu") == 0)
@@ -33,11 +33,11 @@ void R_Command(char *op) {
 	{
 		printf("0x%08x : sub : $%u , $%u ,$%u\n", PC, rd, rs, rt);
 		reg[rd] = reg[rs] - reg[rt];
+		detectNumOverflow((int)reg[rs], (int)(reg[rt] *(-1)), (int)reg[rd]);
 		if (rd == 0)
 		{
 			detectWriteRegZero();
 		}
-		detectNumOverflow((int)reg[rs], (int)reg[rt], (int)reg[rd]);
 	}
 
 	else if (strcmp(op, "and") == 0)
@@ -205,8 +205,8 @@ void I_Command(char *op) {
 		int s_imme = (int)immediate;
 		s_rt = s_rs + s_imme;
 		detectNumOverflow( s_rs, s_imme,s_rt );
-		reg[rt] = reg[rs] + immediate;
-		if (numOverflow == 1)
+		reg[rt] = (unsigned)s_rt;
+		if (rt== 0)
 			reg[rt] = 0;
 	}
 
@@ -218,7 +218,7 @@ void I_Command(char *op) {
 		findSignedIMMEDIATE();						
 		printf("0x%08x : addiu : $%u , $%u , $0x%02x\n", PC, rt, rs, immediate);
 		reg[rt] = reg[rs] + immediate;
-		if (rt == 1)
+		if (rt == 0)
 			detectWriteRegZero();
 	}
 
@@ -228,19 +228,19 @@ void I_Command(char *op) {
 		findSignedIMMEDIATE();
 		printf("0x%08x : lw : $%u , 0x%02xC($%u)\n", PC, rt,immediate, rs);
 		dPos = reg[rs] + immediate;
-
-		if (!detectMemOverflow(3) && !detectDataMisaligned(3))
+		int memovf = detectMemOverflow(3);
+		int datamsa = detectDataMisaligned(3);
+		if (!memovf && !datamsa)
 		{
 			reg[rt] = (dMemory[dPos] << 24) | (dMemory[dPos + 1] << 16) | (dMemory[dPos + 2] << 8) | (dMemory[dPos + 3]);
 		}
 
-		if (rt == 0)
-			detectWriteRegZero();
-
 		//check ovf
 		int s_imme = (int)immediate;
 		int s_pos = (int)reg[rs];
-		detectNumOverflow(s_imme, s_pos, s_pos);
+		detectNumOverflow(s_imme, s_pos, (int)dPos);
+		if (rt == 0)
+			detectWriteRegZero();
 	}	  
 
 	else if (strcmp(op, "lh") == 0)
@@ -248,75 +248,87 @@ void I_Command(char *op) {
 		findSignedIMMEDIATE();
 		printf("0x%08x : lh : $%u , 0x%02xC($%u)\n", PC, rt, immediate, rs);
 		dPos = reg[rs] + immediate;
-		if (!detectMemOverflow(1) && !detectDataMisaligned(1))
+		int memovf = detectMemOverflow(1);
+		int datamsa = detectDataMisaligned(1);
+		if (!memovf && !datamsa)
 		{
 			reg[rt] = (int16_t)((dMemory[dPos])<<8 |(dMemory[dPos+1]));
 		}
-		if (rt == 0)
-			detectWriteRegZero();
-
 		//check ovf
 		int s_imme = (int)immediate;
 		int s_pos = (int)reg[rs];
-		detectNumOverflow(s_imme, s_pos, s_pos);
+		detectNumOverflow(s_imme, s_pos, (int)dPos);
+		if (rt == 0)
+			detectWriteRegZero();
 	}
 	else if (strcmp(op, "lhu") == 0)
 	{
 		findSignedIMMEDIATE();
 		printf("0x%08x : lhu : $%u , 0x%02xC($%u)\n", PC, rt, immediate, rs);
 		dPos = reg[rs] + immediate;
-		if (!detectMemOverflow(1) && !detectDataMisaligned(1))
+		int memovf = detectMemOverflow(1);
+		int datamsa = detectDataMisaligned(1);
+		if (!memovf && !datamsa)
 		{
 			reg[rt] = ((dMemory[dPos]) << 8 | (dMemory[dPos+1]));
 		}
-		if (rt == 0)
-			detectWriteRegZero();
 
 		//check ovf
 		int s_imme = (int)immediate;
 		int s_pos = (int)reg[rs];
-		detectNumOverflow(s_imme, s_pos, s_pos);
+		detectNumOverflow(s_imme, s_pos, (int)dPos);
+		if (rt == 0)
+			detectWriteRegZero();
+
 	}
 	else if (strcmp(op, "lb") == 0)
 	{
 		findSignedIMMEDIATE();
 		printf("0x%08x : lb : $%u , 0x%02xC($%u)\n", PC, rt, immediate, rs);
 		dPos = reg[rs] + immediate;
-		if (!detectMemOverflow(0) && !detectDataMisaligned(0))
+		int memovf = detectMemOverflow(0);
+		int datamsa = detectDataMisaligned(0);
+		if (!memovf && !datamsa)
 		{
 			reg[rt] = (int8_t)(dMemory[dPos]);
 		}
-		if (rt == 0)
-			detectWriteRegZero();
-
+		
 		//check ovf
 		int s_imme = (int)immediate;
 		int s_pos = (int)reg[rs];
-		detectNumOverflow(s_imme, s_pos, s_pos);
+		detectNumOverflow(s_imme, s_pos, (int)dPos);
+		if (rt == 0)
+			detectWriteRegZero();
+
 	}
 	else if (strcmp(op, "lbu") == 0)
 	{
 		findSignedIMMEDIATE();
 		printf("0x%08x : lbu : $%u , 0x%02xC($%u)\n", PC, rt, immediate, rs);
 		dPos = reg[rs] + immediate;
-		if (!detectMemOverflow(0) && !detectDataMisaligned(0))
+		int memovf = detectMemOverflow(0);
+		int datamsa = detectDataMisaligned(0);
+		if (!memovf && !datamsa)
 		{
 			reg[rt] = (dMemory[dPos]);
 		}
-		if (rt == 0)
-			detectWriteRegZero();
-
+		
 		//check ovf
 		int s_imme = (int)immediate;
 		int s_pos = (int)reg[rs];
-		detectNumOverflow(s_imme, s_pos, s_pos);
+		detectNumOverflow(s_imme, s_pos, (int)dPos);
+		if (rt == 0)
+			detectWriteRegZero();
+
 	}
 	else if (strcmp(op, "sw") == 0)
 	{
 		findSignedIMMEDIATE();
 		printf("0x%08x : sw : $%u , 0x%02xC($%u)\n", PC, rt, immediate, rs);
 		dPos = reg[rs] + immediate;
-		if (!detectMemOverflow(3) && !detectDataMisaligned(3))
+		int memovf = detectMemOverflow(3);
+		int datamsa = detectDataMisaligned(3);
+		if (!memovf && !datamsa)
 		{
 			dMemory[dPos] = reg[rt] >> 24;
 			dMemory[dPos + 1] = (reg[rt] >> 16) & 0xff;
@@ -326,14 +338,16 @@ void I_Command(char *op) {
 		//check ovf
 		int s_imme = (int)immediate;
 		int s_pos = (int)reg[rs];
-		detectNumOverflow(s_imme, s_pos, s_pos);
+		detectNumOverflow(s_imme, s_pos, (int)dPos);
 	}
 	else if (strcmp(op, "sh") == 0)
 	{
 		findSignedIMMEDIATE();
 		printf("0x%08x : sh : $%u , 0x%02xC($%u)\n", PC, rt, immediate, rs);
 		dPos = reg[rs] + immediate;
-		if (!detectMemOverflow(1) && !detectDataMisaligned(1))
+		int memovf = detectMemOverflow(1);
+		int datamsa = detectDataMisaligned(1);
+		if (!memovf && !datamsa)
 		{
 			dMemory[dPos] = (reg[rt] >> 8)&0xff ;
 			dMemory[dPos + 1] = reg[rt];
@@ -341,21 +355,23 @@ void I_Command(char *op) {
 		//check ovf
 		int s_imme = (int)immediate;
 		int s_pos = (int)reg[rs];
-		detectNumOverflow(s_imme, s_pos, s_pos);
+		detectNumOverflow(s_imme, s_pos, (int)dPos);
 	}
 	else if (strcmp(op, "sb") == 0)
 	{
 		findSignedIMMEDIATE();
 		printf("0x%08x : sb : $%u , 0x%02xC($%u)\n", PC, rt, immediate, rs);
 		dPos = reg[rs] + immediate;
-		if (!detectMemOverflow(0) && !detectDataMisaligned(0))
+		int memovf = detectMemOverflow(0);
+		int datamsa = detectDataMisaligned(0);
+		if (!memovf && !datamsa)
 		{
 			dMemory[dPos] = reg[rt];
 		}
 		//check ovf
 		int s_imme = (int)immediate;
 		int s_pos = (int)reg[rs];
-		detectNumOverflow(s_imme, s_pos, s_pos);
+		detectNumOverflow(s_imme, s_pos, (int)dPos);
 	}
 	else if (strcmp(op, "lui") == 0)
 	{
@@ -467,7 +483,7 @@ void detectWriteRegZero()
 
 void detectNumOverflow(int a,int b,int c)	 //d = 1 is mul
 {
-	if((a>0&&b>0&&c<0 || a<0&&b<0&&c>0))
+	if((a>0&&b>0&&c<0) || (a<0&&b<0&&c>0))
 		numOverflow = 1;
 	
 

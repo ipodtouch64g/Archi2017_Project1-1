@@ -1,9 +1,12 @@
-TARGET = single_cycle
-CC = gcc -c
-CFLAGS= -Wall -I.
+CC = gcc -std=c99
+SRCS = ./*.c
+OBS = ./*.o
 
+single_cycle: SRC
+	$(CC) -o $@ $(OBS)
 
-single_cycle:
-.PHONY: clean
-clean:
-	rm -f single_cycle *.o
+SRC: $(SRCS)
+	$(CC) -c $(SRCS)
+
+clean: $(OBS)
+	rm -f $(OBS)  
