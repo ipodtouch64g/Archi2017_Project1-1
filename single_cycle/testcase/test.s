@@ -5,10 +5,10 @@
 |
 |
 |
-|
-|
-|
-|
+|#test largest positive - second smallest negative OVF
+|	lw $1,0x0000($0)                                                                        #pc=0x13C
+|	lw $2,0x0010($0)                                                                        #pc=0x140
+|	sub $1,$1,$2                                                                            #pc=0x144
 |#test addi largest ovf 
 |	lw $1,0x0000($0)																		#pc=0x148
 |	addi $1,$1,0x7FFF                                                                       #pc=0x14C
