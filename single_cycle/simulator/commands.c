@@ -8,7 +8,7 @@ void R_Command(char *op) {
 								findFUNC();
 								if (strcmp(op, "add") == 0)
 								{
-																printf("0x%08x : add : $%u , $%u ,$%u\n",PC,rd,rs,rt);
+																//printf("0x%08x : add : $%u , $%u ,$%u\n",PC,rd,rs,rt);
 																int s_rd;
 																int s_rs = (int)reg[rs];
 																int s_rt = (int)reg[rt];
@@ -23,7 +23,7 @@ void R_Command(char *op) {
 
 								else if (strcmp(op, "addu") == 0)
 								{
-																printf("0x%08x : addu : $%u , $%u ,$%u\n", PC, rd, rs, rt);
+																//printf("0x%08x : addu : $%u , $%u ,$%u\n", PC, rd, rs, rt);
 																reg[rd] = reg[rs] + reg[rt];
 																if (rd == 0)
 																{
@@ -33,12 +33,12 @@ void R_Command(char *op) {
 
 								else if (strcmp(op, "sub") == 0)
 								{
-																printf("0x%08x : sub : $%u , $%u ,$%u\n", PC, rd, rs, rt);
+																//printf("0x%08x : sub : $%u , $%u ,$%u\n", PC, rd, rs, rt);
 																int s_rd;
 																int s_rs = (int)reg[rs];
 																int s_rt = (int)reg[rt];
 																s_rd = s_rs - s_rt;
-																detectNumOverflow( s_rs,s_rt*(-1) ,s_rd );
+																detectNumOverflow( s_rs,(-1)*s_rt ,s_rd );
 																reg[rd] = (unsigned)s_rd;
 																if (rd == 0)
 																{
@@ -48,7 +48,7 @@ void R_Command(char *op) {
 
 								else if (strcmp(op, "and") == 0)
 								{
-																printf("0x%08x : and : $%u , $%u ,$%u\n", PC, rd, rs, rt);
+																//printf("0x%08x : and : $%u , $%u ,$%u\n", PC, rd, rs, rt);
 																reg[rd] = reg[rs] & reg[rt];
 																if (rd == 0)
 																{
@@ -58,7 +58,7 @@ void R_Command(char *op) {
 
 								else if (strcmp(op, "or") == 0)
 								{
-																printf("0x%08x : or : $%u , $%u ,$%u\n", PC, rd, rs, rt);
+																//printf("0x%08x : or : $%u , $%u ,$%u\n", PC, rd, rs, rt);
 																reg[rd] = reg[rs] | reg[rt];
 																if (rd == 0)
 																{
@@ -68,7 +68,7 @@ void R_Command(char *op) {
 
 								else if (strcmp(op, "xor") == 0)
 								{
-																printf("0x%08x : xor : $%u , $%u ,$%u\n", PC, rd, rs, rt);
+																//printf("0x%08x : xor : $%u , $%u ,$%u\n", PC, rd, rs, rt);
 																reg[rd] = reg[rs] ^ reg[rt];
 																if (rd == 0)
 																{
@@ -78,7 +78,7 @@ void R_Command(char *op) {
 
 								else if (strcmp(op, "nor") == 0)
 								{
-																printf("0x%08x : nor : $%u , $%u ,$%u\n", PC, rd, rs, rt);
+																//printf("0x%08x : nor : $%u , $%u ,$%u\n", PC, rd, rs, rt);
 																reg[rd] = ~(reg[rs] | reg[rt]);
 																if (rd == 0)
 																{
@@ -88,7 +88,7 @@ void R_Command(char *op) {
 
 								else if (strcmp(op, "nand") == 0)
 								{
-																printf("0x%08x : nand : $%u , $%u ,$%u\n", PC, rd, rs, rt);
+																//printf("0x%08x : nand : $%u , $%u ,$%u\n", PC, rd, rs, rt);
 																reg[rd] = ~(reg[rs] & reg[rt]);
 																if (rd == 0)
 																{
@@ -98,7 +98,7 @@ void R_Command(char *op) {
 
 								else if (strcmp(op, "slt") == 0)
 								{
-																printf("0x%08x : slt : $%u , $%u ,$%u\n", PC, rd, rs, rt);
+																//printf("0x%08x : slt : $%u , $%u ,$%u\n", PC, rd, rs, rt);
 																reg[rd] = ((int)reg[rs] < (int)reg[rt]) ? 1 : 0;
 																if (rd == 0)
 																{
@@ -108,7 +108,7 @@ void R_Command(char *op) {
 
 								else if (strcmp(op, "sll") == 0)
 								{
-																printf("0x%08x : sll : $%u , $%u ,$%u\n", PC, rd, rt, shamt);
+																//printf("0x%08x : sll : $%u , $%u ,$%u\n", PC, rd, rt, shamt);
 																reg[rd] = reg[rt] << shamt;
 																if (rt != 0 || shamt != 0)
 																{
@@ -119,7 +119,7 @@ void R_Command(char *op) {
 
 								else if (strcmp(op, "srl") == 0)
 								{
-																printf("0x%08x : srl : $%u , $%u ,$%u\n", PC, rd, rt, shamt);
+																//printf("0x%08x : srl : $%u , $%u ,$%u\n", PC, rd, rt, shamt);
 																reg[rd] = reg[rt] >> shamt;
 																if (rd == 0)
 																{
@@ -129,7 +129,7 @@ void R_Command(char *op) {
 
 								else if (strcmp(op, "sra") == 0)
 								{
-																printf("0x%08x : sra : $%u , $%u ,$%u\n", PC, rd, rt, shamt);
+																//printf("0x%08x : sra : $%u , $%u ,$%u\n", PC, rd, rt, shamt);
 																reg[rd] = (int)reg[rt] >> shamt;
 																if (rd == 0)
 																{
@@ -139,14 +139,14 @@ void R_Command(char *op) {
 
 								else if (strcmp(op, "jr") == 0)
 								{
-																printf("0x%08x : jr : $%u\n", PC, rs);
+																//printf("0x%08x : jr : $%u\n", PC, rs);
 																PC = reg[rs];
 																return; //DONT need to PC+=4
 								}
 
 								else if (strcmp(op, "mult") == 0)
 								{
-																printf("0x%08x : mult : $%u , $%u\n", PC, rs, rt);
+																//printf("0x%08x : mult : $%u , $%u\n", PC, rs, rt);
 																int64_t rs_64 = (int)reg[rs];
 																int64_t rt_64 = (int)reg[rt];
 																int64_t ans = rs_64*rt_64;
@@ -159,7 +159,7 @@ void R_Command(char *op) {
 
 								else if (strcmp(op, "multu") == 0)
 								{
-																printf("0x%08x : multu : $%u , $%u\n", PC, rs, rt);
+																//printf("0x%08x : multu : $%u , $%u\n", PC, rs, rt);
 																uint64_t rs_64 = reg[rs];
 																uint64_t rt_64 = reg[rt];
 																uint64_t ans = rs_64*rt_64;
@@ -171,7 +171,7 @@ void R_Command(char *op) {
 
 								else if (strcmp(op, "mfhi") == 0)
 								{
-																printf("0x%08x : mfhi : $%u\n", PC, rd);
+																//printf("0x%08x : mfhi : $%u\n", PC, rd);
 																reg[rd] = HI;
 																if (rd == 0)
 																								detectWriteRegZero();
@@ -180,7 +180,7 @@ void R_Command(char *op) {
 
 								else if (strcmp(op, "mflo") == 0)
 								{
-																printf("0x%08x : mflo : $%u\n", PC, rd);
+																//printf("0x%08x : mflo : $%u\n", PC, rd);
 																reg[rd] = LO;
 																if (rd == 0)
 																								detectWriteRegZero();
@@ -203,7 +203,7 @@ void I_Command(char *op) {
 								if (strcmp(op, "addi") == 0)
 								{
 																findSignedIMMEDIATE();
-																printf("0x%08x : addi : $%u , $%u , $0x%02x\n", PC, rt, rs, immediate);
+																//printf("0x%08x : addi : $%u , $%u , $0x%02x\n", PC, rt, rs, immediate);
 																if (rt == 0)
 																								detectWriteRegZero();
 																int s_rt;
@@ -222,7 +222,7 @@ void I_Command(char *op) {
 								else if (strcmp(op, "addiu") == 0)
 								{
 																findSignedIMMEDIATE();
-																printf("0x%08x : addiu : $%u , $%u , $0x%02x\n", PC, rt, rs, immediate);
+																//printf("0x%08x : addiu : $%u , $%u , $0x%02x\n", PC, rt, rs, immediate);
 																reg[rt] = reg[rs] + immediate;
 																if (rt == 0)
 																								detectWriteRegZero();
@@ -232,7 +232,7 @@ void I_Command(char *op) {
 								else if (strcmp(op, "lw") == 0)
 								{
 																findSignedIMMEDIATE();
-																printf("0x%08x : lw : $%u , 0x%02xC($%u)\n", PC, rt,immediate, rs);
+																//printf("0x%08x : lw : $%u , 0x%02xC($%u)\n", PC, rt,immediate, rs);
 																dPos = reg[rs] + immediate;
 																int memovf = detectMemOverflow(3);
 																int datamsa = detectDataMisaligned(3);
@@ -252,7 +252,7 @@ void I_Command(char *op) {
 								else if (strcmp(op, "lh") == 0)
 								{
 																findSignedIMMEDIATE();
-																printf("0x%08x : lh : $%u , 0x%02xC($%u)\n", PC, rt, immediate, rs);
+																//printf("0x%08x : lh : $%u , 0x%02xC($%u)\n", PC, rt, immediate, rs);
 																dPos = reg[rs] + immediate;
 																int memovf = detectMemOverflow(1);
 																int datamsa = detectDataMisaligned(1);
@@ -270,7 +270,7 @@ void I_Command(char *op) {
 								else if (strcmp(op, "lhu") == 0)
 								{
 																findSignedIMMEDIATE();
-																printf("0x%08x : lhu : $%u , 0x%02xC($%u)\n", PC, rt, immediate, rs);
+																//printf("0x%08x : lhu : $%u , 0x%02xC($%u)\n", PC, rt, immediate, rs);
 																dPos = reg[rs] + immediate;
 																int memovf = detectMemOverflow(1);
 																int datamsa = detectDataMisaligned(1);
@@ -290,7 +290,7 @@ void I_Command(char *op) {
 								else if (strcmp(op, "lb") == 0)
 								{
 																findSignedIMMEDIATE();
-																printf("0x%08x : lb : $%u , 0x%02xC($%u)\n", PC, rt, immediate, rs);
+																//printf("0x%08x : lb : $%u , 0x%02xC($%u)\n", PC, rt, immediate, rs);
 																dPos = reg[rs] + immediate;
 																int memovf = detectMemOverflow(0);
 																int datamsa = detectDataMisaligned(0);
@@ -310,7 +310,7 @@ void I_Command(char *op) {
 								else if (strcmp(op, "lbu") == 0)
 								{
 																findSignedIMMEDIATE();
-																printf("0x%08x : lbu : $%u , 0x%02xC($%u)\n", PC, rt, immediate, rs);
+																//printf("0x%08x : lbu : $%u , 0x%02xC($%u)\n", PC, rt, immediate, rs);
 																dPos = reg[rs] + immediate;
 																int memovf = detectMemOverflow(0);
 																int datamsa = detectDataMisaligned(0);
@@ -330,7 +330,7 @@ void I_Command(char *op) {
 								else if (strcmp(op, "sw") == 0)
 								{
 																findSignedIMMEDIATE();
-																printf("0x%08x : sw : $%u , 0x%02xC($%u)\n", PC, rt, immediate, rs);
+																//printf("0x%08x : sw : $%u , 0x%02xC($%u)\n", PC, rt, immediate, rs);
 																dPos = reg[rs] + immediate;
 																int memovf = detectMemOverflow(3);
 																int datamsa = detectDataMisaligned(3);
@@ -349,7 +349,7 @@ void I_Command(char *op) {
 								else if (strcmp(op, "sh") == 0)
 								{
 																findSignedIMMEDIATE();
-																printf("0x%08x : sh : $%u , 0x%02xC($%u)\n", PC, rt, immediate, rs);
+																//printf("0x%08x : sh : $%u , 0x%02xC($%u)\n", PC, rt, immediate, rs);
 																dPos = reg[rs] + immediate;
 																int memovf = detectMemOverflow(1);
 																int datamsa = detectDataMisaligned(1);
@@ -366,7 +366,7 @@ void I_Command(char *op) {
 								else if (strcmp(op, "sb") == 0)
 								{
 																findSignedIMMEDIATE();
-																printf("0x%08x : sb : $%u , 0x%02xC($%u)\n", PC, rt, immediate, rs);
+																//printf("0x%08x : sb : $%u , 0x%02xC($%u)\n", PC, rt, immediate, rs);
 																dPos = reg[rs] + immediate;
 																int memovf = detectMemOverflow(0);
 																int datamsa = detectDataMisaligned(0);
@@ -382,7 +382,7 @@ void I_Command(char *op) {
 								else if (strcmp(op, "lui") == 0)
 								{
 																findUnsignedIMMEDIATE();
-																printf("0x%08x : lui : $%u , 0x%02xC\n", PC, rt, immediate);
+																//printf("0x%08x : lui : $%u , 0x%02xC\n", PC, rt, immediate);
 																reg[rt] = immediate << 16;
 																if (rt == 0)
 																								detectWriteRegZero();
@@ -390,7 +390,7 @@ void I_Command(char *op) {
 								else if (strcmp(op, "andi") == 0)
 								{
 																findUnsignedIMMEDIATE();
-																printf("0x%08x : andi : $%u , $%u ,0x%02xC\n", PC, rt, rs,immediate);
+																//printf("0x%08x : andi : $%u , $%u ,0x%02xC\n", PC, rt, rs,immediate);
 																reg[rt] = reg[rs] & immediate;
 																if (rt == 0)
 																								detectWriteRegZero();
@@ -398,7 +398,7 @@ void I_Command(char *op) {
 								else if (strcmp(op, "ori") == 0)
 								{
 																findUnsignedIMMEDIATE();
-																printf("0x%08x : ori : $%u , $%u ,0x%02xC\n", PC, rt, rs, immediate);
+																//printf("0x%08x : ori : $%u , $%u ,0x%02xC\n", PC, rt, rs, immediate);
 																reg[rt] = reg[rs] | immediate;
 																if (rt == 0)
 																								detectWriteRegZero();
@@ -406,7 +406,7 @@ void I_Command(char *op) {
 								else if (strcmp(op, "nori") == 0)
 								{
 																findUnsignedIMMEDIATE();
-																printf("0x%08x : nori : $%u , $%u ,0x%02xC\n", PC, rt, rs, immediate);
+																//printf("0x%08x : nori : $%u , $%u ,0x%02xC\n", PC, rt, rs, immediate);
 																reg[rt] = ~(reg[rs] | immediate);
 																if (rt == 0)
 																								detectWriteRegZero();
@@ -414,7 +414,7 @@ void I_Command(char *op) {
 								else if (strcmp(op, "slti") == 0)
 								{
 																findSignedIMMEDIATE();
-																printf("0x%08x : slti : $%u , $%u ,0x%02xC\n", PC, rt, rs, immediate);
+																//printf("0x%08x : slti : $%u , $%u ,0x%02xC\n", PC, rt, rs, immediate);
 																reg[rt] = ((int)reg[rs]<(int)immediate);
 																if (rt == 0)
 																								detectWriteRegZero();
@@ -422,7 +422,7 @@ void I_Command(char *op) {
 								else if (strcmp(op, "beq") == 0)
 								{
 																findSignedIMMEDIATE();
-																printf("0x%08x : beq : $%u , $%u ,0x%02xC\n", PC, rs, rt, immediate);
+																//printf("0x%08x : beq : $%u , $%u ,0x%02xC\n", PC, rs, rt, immediate);
 																if (reg[rs] == reg[rt])
 																{
 																								PC += (4 + (immediate << 2));
@@ -432,7 +432,7 @@ void I_Command(char *op) {
 								else if (strcmp(op, "bne") == 0)
 								{
 																findSignedIMMEDIATE();
-																printf("0x%08x : bne : $%u , $%u ,0x%02xC\n", PC, rs, rt, immediate);
+																//printf("0x%08x : bne : $%u , $%u ,0x%02xC\n", PC, rs, rt, immediate);
 																if (reg[rs] != reg[rt])
 																{
 																								PC += (4 + (immediate << 2));
@@ -442,7 +442,7 @@ void I_Command(char *op) {
 								else if (strcmp(op, "bgtz") == 0)
 								{
 																findSignedIMMEDIATE();
-																printf("0x%08x : bgtz : $%u , 0x%02xC\n", PC, rs, immediate);
+																//printf("0x%08x : bgtz : $%u , 0x%02xC\n", PC, rs, immediate);
 																if ((int)reg[rs] >0)
 																{
 																								PC += (4 + (immediate << 2));
@@ -461,14 +461,14 @@ void J_Command(char *op) {
 								findADDR();
 								if (strcmp(op, "j") == 0)
 								{
-																printf("0x%08x : j : 0x%08xC\n", PC, address);
-																PC = ((PC + 4) >> 28 << 28) | (address << 2);
+																//printf("0x%08x : j : 0x%08xC\n", PC, address);
+																PC = (((PC + 4) >> 28 << 28) | (address << 2));
 								}
 								else if (strcmp(op, "jal") == 0)
 								{
-																printf("0x%08x : jal : 0x%08xC\n", PC, address);
+																//printf("0x%08x : jal : 0x%08xC\n", PC, address);
 																reg[31] = PC + 4;
-																PC = ((PC + 4) >> 28 << 28) | (address << 2);
+																PC = (((PC + 4) >> 28 << 28) | (address << 2));
 								}
 								else
 								{
@@ -489,7 +489,7 @@ void detectWriteRegZero()
 
 void detectNumOverflow(int a,int b,int c)  //d = 1 is mul
 {
-								if((a>0&&b>0&&c<0) || (a<0&&b<0&&c>0))
+								if((a>0&&b>0&&c<=0) || (a<0&&b<0&&c>=0))
 																numOverflow = 1;
 
 

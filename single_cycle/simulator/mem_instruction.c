@@ -2,6 +2,11 @@
 
 void MachineCodeToCommands()
 {
+	if (PC > 1024) {
+		halt = 1;
+		return;
+	}
+		
 								findOP();
 								switch (op)
 								{
