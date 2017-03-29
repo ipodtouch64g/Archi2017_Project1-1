@@ -13,7 +13,7 @@ void R_Command(char *op) {
 																int s_rs = (int)reg[rs];
 																int s_rt = (int)reg[rt];
 																s_rd = s_rs + s_rt;
-																detectNumOverflow( s_rs,s_rt ,s_rd );
+																detectNumOverflow( s_rs,s_rt,s_rd );
 																reg[rd] = (unsigned)s_rd;
 																if (rd == 0)
 																{
@@ -38,7 +38,7 @@ void R_Command(char *op) {
 																int s_rs = (int)reg[rs];
 																int s_rt = (int)reg[rt];
 																s_rd = s_rs - s_rt;
-																detectNumOverflow( s_rs,(-1)*s_rt ,s_rd );
+																detectNumOverflow( s_rs,(-1)*s_rt,s_rd );
 																reg[rd] = (unsigned)s_rd;
 																if (rd == 0)
 																{
@@ -113,7 +113,7 @@ void R_Command(char *op) {
 																if (rt != 0 || shamt != 0)
 																{
 																								if (rd == 0)
-																								detectWriteRegZero();
+																																detectWriteRegZero();
 																}
 								}
 
@@ -146,7 +146,7 @@ void R_Command(char *op) {
 
 								else if (strcmp(op, "mult") == 0)
 								{
-																//printf("0x%08x : mult : $%u , $%u\n", PC, rs, rt);
+																// printf("0x%08x : mult : $%u , $%u\n", PC, rs, rt);
 																int64_t rs_64 = (int)reg[rs];
 																int64_t rt_64 = (int)reg[rt];
 																int64_t ans = rs_64*rt_64;
@@ -159,7 +159,7 @@ void R_Command(char *op) {
 
 								else if (strcmp(op, "multu") == 0)
 								{
-																//printf("0x%08x : multu : $%u , $%u\n", PC, rs, rt);
+																// printf("0x%08x : multu : $%u , $%u\n", PC, rs, rt);
 																uint64_t rs_64 = reg[rs];
 																uint64_t rt_64 = reg[rt];
 																uint64_t ans = rs_64*rt_64;
@@ -171,7 +171,7 @@ void R_Command(char *op) {
 
 								else if (strcmp(op, "mfhi") == 0)
 								{
-																//printf("0x%08x : mfhi : $%u\n", PC, rd);
+																// printf("0x%08x : mfhi : $%u\n", PC, rd);
 																reg[rd] = HI;
 																if (rd == 0)
 																								detectWriteRegZero();
@@ -180,7 +180,7 @@ void R_Command(char *op) {
 
 								else if (strcmp(op, "mflo") == 0)
 								{
-																//printf("0x%08x : mflo : $%u\n", PC, rd);
+																// printf("0x%08x : mflo : $%u\n", PC, rd);
 																reg[rd] = LO;
 																if (rd == 0)
 																								detectWriteRegZero();
@@ -497,7 +497,7 @@ void detectNumOverflow(int a,int b,int c)  //d = 1 is mul
 
 void detectHILOWrite(char* op)
 {
-								if (strcmp(op, "mult") == 0)
+								if (strcmp(op, "mult") == 0 )
 								{
 																if (toggledMULT == 1 && toggledHILO==1) //NO HILO error , turn off HILO toggle now
 																{
@@ -507,9 +507,10 @@ void detectHILOWrite(char* op)
 																{
 																								HILOOverWrite = 1;
 																}
-																else //first MULT in a row,turn on MULT toggle now
-																{
-																								toggledMULT = 1;
+																//NEED TO DETECT HILO ON AND TURN IT OFF BEFORE FIRST MULT
+
+																else{
+																								toggledMULT=1;toggledHILO = 0;
 																}
 								}
 								else //op == hi lo

@@ -32,7 +32,7 @@ void OpenFile()
         fclose(dimage);
         iimageParser();
         dimageParser();
-       //printParsed();
+        // printParsed();
 }
 //Deal with iimage
 void iimageParser()
@@ -102,7 +102,7 @@ void errorDump()
         if (HILOOverWrite == 1)
         {
                 fprintf(error_dump, "In cycle %d: Overwrite HI-LO registers\n", cycle);
-                //printf("In cycle %d: Overwrite HI-LO registers\n", cycle);
+                // printf("In cycle %d: Overwrite HI-LO registers\n", cycle);
         }
 
 
@@ -125,22 +125,22 @@ void errorDump()
 void snapShot()
 {
         fprintf(snapshot, "cycle %d\n", cycle);
-        //printf("cycle %d\n", cycle);
+        // printf("cycle %d\n", cycle);
         if(cycle==0)
         {
                 for(int i=0; i<32; i++)
                 {
                         fprintf(snapshot, "$%02d: 0x", i);
                         fprintf(snapshot, "%08X\n", reg[i]);
-                        //printf("$%02d: 0x", i);
-                        //printf("%08X\n", reg[i]);
+                        // printf("$%02d: 0x", i);
+                        // printf("%08X\n", reg[i]);
                 }
                 fprintf(snapshot, "$HI: 0x%08X\n",HI);
                 fprintf(snapshot, "$LO: 0x%08X\n",LO);
                 fprintf(snapshot, "PC: 0x%08X\n\n\n",PC);
-                //printf("$HI: 0x%08X\n", HI);
-                //printf("$LO: 0x%08X\n", LO);
-                //printf("PC: 0x%08X\n\n\n", PC);
+                // printf("$HI: 0x%08X\n", HI);
+                // printf("$LO: 0x%08X\n", LO);
+                // printf("PC: 0x%08X\n\n\n", PC);
         }
 
         else
@@ -151,26 +151,26 @@ void snapShot()
                         {
                                 fprintf(snapshot, "$%02d: 0x", i);
                                 fprintf(snapshot, "%08X\n", reg[i]);
-                                //printf("$%02d: 0x", i);
-                                //printf("%08X\n", reg[i]);
+                                // printf("$%02d: 0x", i);
+                                // printf("%08X\n", reg[i]);
                         }
                         lastReg[i] = reg[i];
                 }
                 if (lastHI != HI)
                 {
                         fprintf(snapshot, "$HI: 0x%08X\n", HI);
-                        //printf("$HI: 0x%08X\n", HI);
+                        // printf("$HI: 0x%08X\n", HI);
                 }
                 if (lastLO != LO)
                 {
                         fprintf(snapshot, "$LO: 0x%08X\n", LO);
-                        //printf("$LO: 0x%08X\n", LO);
+                        // printf("$LO: 0x%08X\n", LO);
                 }
 
                 if (lastPC != PC)
                 {
                         fprintf(snapshot, "PC: 0x%08X\n\n\n", PC);
-                        //printf( "PC: 0x%08X\n\n\n", PC);
+                        // printf( "PC: 0x%08X\n\n\n", PC);
                 }
 
 
