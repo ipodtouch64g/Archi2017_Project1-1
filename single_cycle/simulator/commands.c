@@ -510,7 +510,7 @@ void detectHILOWrite(char* op)
 																//NEED TO DETECT HILO ON AND TURN IT OFF BEFORE FIRST MULT
 
 																else{
-																								toggledMULT=1;toggledHILO = 0;
+																								toggledMULT=1; toggledHILO = 0;
 																}
 								}
 								else //op == hi lo
@@ -556,7 +556,7 @@ void findRSRTRD()
 								//RD
 								rd = iMemory[PC + 2];
 								rd = rd >> 3;
-								//RT
+//RT
 								rt = iMemory[PC + 1];
 								rt = rt << 27 >> 27;
 								//RS
